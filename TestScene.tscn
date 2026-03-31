@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://cy582nyy7hwpe"]
+[gd_scene format=3 uid="uid://cy582nyy7hwpe"]
 
-[ext_resource type="Script" uid="uid://dhb6wtqo23i5t" path="res://TestScene.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ch8fljf5ngnyy" path="res://icon.svg" id="2_cguwc"]
 
-[node name="TestScene" type="Node2D"]
-script = ExtResource("1")
+[node name="TestScene" type="Node" unique_id=1167755794]
+
+[node name="Control" type="Control" parent="." unique_id=1936463846]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1603469617]
+position = Vector2(0, 177)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=100296668]
+texture = ExtResource("2_cguwc")

@@ -8,18 +8,30 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Godot-4-plugin-project-resolution"
 run/main_scene="res://TestScene.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width="1024"
-window/size/viewport_height="768"
+window/size/viewport_width=390
+window/size/viewport_height=844
+window/size/window_width_override=2532
+window/size/window_height_override=1170
+window/subwindows/embed_subwindows=false
+window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ProjectResolution/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot-plugin-refresher/plugin.cfg")
+
+[rendering]
+
+renderer/rendering_method="mobile"
