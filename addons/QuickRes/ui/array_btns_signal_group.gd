@@ -12,8 +12,10 @@ func _exit_tree() -> void:
 		btn.queue_free()
 
 
-func add(data: ResolutionsGroupPreset, on_select_preset: Callable):
+func add(data: ResolutionPresetsGroup, on_select_preset: Callable):
 	var btn = __btn_tscn.instantiate()
 	Extras.connect_once(btn.pressed, on_select_preset.bind(data.preset_name))
 	add_child(btn)
+	btn.button_group = __btns_group
+	btn.toggle_mode = true
 	btn.text = data.preset_name

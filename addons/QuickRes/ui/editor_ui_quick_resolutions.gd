@@ -2,41 +2,40 @@
 class_name QuickResolutionEditorUI extends Control
 
 @export var __groups_btns: ArrayBtnsSignalGroup
+@export var __preset_name_label: Label
+@export var __device_preset_model_label: Label
 @export var __viewport_settings_display_label: Label
 @export var __window_override_settings_display_label: Label
 @export var __resolutions_options_display: OptionButton
-@export var __check_box_orientation: CheckBox
-@export var __res: ResolutionPresets
-@export var __save_resolution: ActiveResolutionData
+@export var __orientation_check_box: CheckBox
+@export var __use_override_check_box: CheckBox
+@export var __res: ResolutionGroupsCollection
 
-@export var __display_viewport_size_widget: DisplaySettingsSizeWidget
-@export var __display_override_size_widget: DisplaySettingsSizeWidget
-
+const __size_viewport_w: String = Const.Settings.SIZE_VIEWPORT_WIDTH
+const __size_viewport_h: String = Const.Settings.SIZE_VIEWPORT_HEIGHT
+const __size_override_w: String = Const.Settings.SIZE_OVERRIDE_WIDTH
+const __size_override_h: String = Const.Settings.SIZE_OVERRIDE_HEIGHT
 
 var __plugin: EditorPlugin
-var __is_landscape: bool
 
-var __active_resolution: Vector2i = Vector2i.ZERO
+var __active_res_preset: ActiveDeviceResolution
 
 
 func _exit_tree() -> void:
-	Extras.disconnect_all(__check_box_orientation.pressed)
+	Extras.disconnect_all(__orientation_check_box.toggled)
+	Extras.disconnect_all(__use_override_check_box.toggled)
 	Extras.disconnect_all(__resolutions_options_display.item_selected)
-	Extras.disconnect_all(__display_viewport_size_widget.set_resolution_size_signal)
-	Extras.disconnect_all(__display_override_size_widget.set_resolution_size_signal)
 
 
 func _enter_tree() -> void:
+	__active_res_preset = load(Const.Paths.ACTIVE_RESOLUTION)
 	__res.refresh()
+	__preset_name_label.text = "Presets collection: {name}".format({"name":__res.title})
 
 	__display_saved_settings()
-	Extras.connect_once(__display_viewport_size_widget.set_resolution_size_signal, __set_viewport_size)
-	Extras.connect_once(__display_override_size_widget.set_resolution_size_signal, __set_window_size_override)
 
-	__is_landscape = __active_resolution.x > __active_resolution.y
-	__check_box_orientation.button_pressed = __is_landscape
-
-	Extras.connect_once(__check_box_orientation.toggled, __switch_orientation)
+	Extras.connect_once(__use_override_check_box.toggled, __set_use_override_window_size)
+	Extras.connect_once(__orientation_check_box.toggled, __switch_orientation)
 	__resolutions_options_display.clear()
 
 	for gr in __res.groups:
@@ -50,7 +49,6 @@ func init(plugin: EditorPlugin):
 func __preset_selected(_preset_name: String):
 	__display_resolutions_list(__res.get_preset_by_name(_preset_name).resolutions)
 
-
 func __display_resolutions_list(resolutions: Array[DeviceResolution]):
 	__resolutions_options_display.clear()
 
@@ -62,45 +60,61 @@ func __display_resolutions_list(resolutions: Array[DeviceResolution]):
 
 
 func __select_resolution(idx: int):
-	var resolution = __res.get_active_preset_resolution_by_index(idx).screen_resolution
-	__active_resolution = resolution
-	__display_viewport_size_widget.resolution = resolution
-	__display_override_size_widget.resolution = resolution
+	var data = __res.get_active_preset_resolution_by_index(idx)
 
-func __set_viewport_size(v2i: Vector2i):
-	__set_resolution(v2i, Const.Settings.SIZE_VIEWPORT_WIDTH, Const.Settings.SIZE_VIEWPORT_HEIGHT)
+	__active_res_preset.model = data.model
+	__active_res_preset.release_year = data.release_year
+	__active_res_preset.screen_resolution = data.screen_resolution
 
+	if __active_res_preset.use_override:
+		__active_res_preset.override_resolution_size = data.override_resolution_size
 
-func __set_window_size_override(v2i: Vector2i):
-	__set_resolution(v2i, Const.Settings.SIZE_OVERRIDE_WIDTH, Const.Settings.SIZE_OVERRIDE_HEIGHT)
+	__refresh_resolution()
 
+func __set_resolution(resolution: Vector2i, prop_width: String, prop_height: String):
 
-func __set_resolution(v2i: Vector2i, prop_width: String, prop_height: String):
-	var resolution = v2i
-
-	if resolution == Vector2i.ZERO:
-		return
-
-	var width = resolution.x if not __is_landscape else resolution.y
-	var height = resolution.y if not __is_landscape else resolution.x
+	var width = resolution.x if not __active_res_preset.is_landscape else resolution.y
+	var height = resolution.y if not __active_res_preset.is_landscape else resolution.x
 
 	ProjectSettings.set_setting(prop_width, width)
 	ProjectSettings.set_setting(prop_height, height)
 
-	ProjectSettings.save()
-	__display_saved_settings()
-	__plugin.refresh_2d_editor_view()
+func __set_use_override_window_size(use_override: bool):
+	__active_res_preset.use_override = use_override
+	__refresh_resolution()
 
 
 func __switch_orientation(is_landscape: bool):
-	__is_landscape = is_landscape
-	# todo: update resolution.
+	__active_res_preset.is_landscape = is_landscape
+	__refresh_resolution()
+
+
+func __refresh_resolution():
+	__set_resolution(__active_res_preset.screen_resolution, __size_viewport_w, __size_viewport_h)
+	__set_resolution(__active_res_preset.override_resolution_size, __size_override_w, __size_override_h)
+
+	ProjectSettings.save()
+	Extras.serialize_resource(__active_res_preset, Const.Paths.ACTIVE_RESOLUTION)
+
+	__plugin.refresh_2d_editor_view()
+	__display_saved_settings()
+
 
 func __display_saved_settings():
+
+	__active_res_preset = load(Const.Paths.ACTIVE_RESOLUTION)
+
+	var viewport_w = ProjectSettings.get_setting(__size_viewport_w)
+	var viewport_h = ProjectSettings.get_setting(__size_viewport_h)
+	var override_w = ProjectSettings.get_setting(__size_override_w)
+	var override_h = ProjectSettings.get_setting(__size_override_h)
+
+	__orientation_check_box.button_pressed = __active_res_preset.is_landscape
+	__use_override_check_box.button_pressed = __active_res_preset.use_override
+
+	__device_preset_model_label.text = "model: {model} - {y}".format({"model": __active_res_preset.model, "y": __active_res_preset.release_year})
 	__viewport_settings_display_label.text = "size_viewport_[{width} x {height}]".format({
-		"width": ProjectSettings.get_setting(Const.Settings.SIZE_VIEWPORT_WIDTH),
-		"height": ProjectSettings.get_setting(Const.Settings.SIZE_VIEWPORT_HEIGHT)})
+		"width": viewport_w, "height": viewport_h})
 
 	__window_override_settings_display_label.text = "size_override_[{width} x {height}]".format({
-		"width": ProjectSettings.get_setting(Const.Settings.SIZE_OVERRIDE_WIDTH),
-		"height": ProjectSettings.get_setting(Const.Settings.SIZE_OVERRIDE_HEIGHT)})
+		"width": override_w, "height": override_h})

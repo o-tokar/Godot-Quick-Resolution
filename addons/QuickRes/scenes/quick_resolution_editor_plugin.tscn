@@ -1,13 +1,12 @@
 [gd_scene format=3 uid="uid://d2vgxbbccrg4"]
 
 [ext_resource type="Script" uid="uid://dx2tox6ety70y" path="res://addons/QuickRes/ui/editor_ui_quick_resolutions.gd" id="1_mcygn"]
-[ext_resource type="Resource" uid="uid://bs5uvc6b065vb" path="res://addons/QuickRes/resources/resolution_presets_groups.tres" id="2_l7gbp"]
+[ext_resource type="Resource" uid="uid://bs5uvc6b065vb" path="res://addons/QuickRes/resources/presets/Mobile/resolution_presets_collection.tres" id="2_mcygn"]
 [ext_resource type="PackedScene" uid="uid://cl3q0vvterljm" path="res://addons/QuickRes/scenes/resolution_select_group_btn.tscn" id="3_gqcfx"]
+[ext_resource type="Theme" uid="uid://dkunm8rcpujbd" path="res://addons/QuickRes/extra/btn_theme.tres" id="4_mcygn"]
 [ext_resource type="Script" uid="uid://cxvnabfg1dtyt" path="res://addons/QuickRes/ui/array_btns_signal_group.gd" id="4_nw6xa"]
-[ext_resource type="Script" uid="uid://d0jch0jc5e2he" path="res://addons/QuickRes/ui/h_slider_set_widget.gd" id="5_brn55"]
-[ext_resource type="Script" uid="uid://chadouii87058" path="res://addons/QuickRes/ui/display_settings_size_widget.gd" id="6_l7gbp"]
 
-[node name="QuickRes" type="Control" unique_id=395159137 node_paths=PackedStringArray("__groups_btns", "__viewport_settings_display_label", "__window_override_settings_display_label", "__resolutions_options_display", "__check_box_orientation", "__display_viewport_size_widget", "__display_override_size_widget")]
+[node name="Quick Resolution" type="Control" unique_id=395159137 node_paths=PackedStringArray("__groups_btns", "__preset_name_label", "__device_preset_model_label", "__viewport_settings_display_label", "__window_override_settings_display_label", "__resolutions_options_display", "__orientation_check_box", "__use_override_check_box")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,13 +16,14 @@ grow_vertical = 2
 focus_mode = 1
 script = ExtResource("1_mcygn")
 __groups_btns = NodePath("VBoxContainer/arr_btns_group")
+__preset_name_label = NodePath("VBoxContainer/preset_name_label")
+__device_preset_model_label = NodePath("VBoxContainer/select_option_list/device_preset_model_label")
 __viewport_settings_display_label = NodePath("VBoxContainer/viewport_settings_display_label")
 __window_override_settings_display_label = NodePath("VBoxContainer/window_override_settings_display_label")
-__resolutions_options_display = NodePath("VBoxContainer/select_option_list/OptionButton")
-__check_box_orientation = NodePath("VBoxContainer/select_option_list/CheckBox")
-__res = ExtResource("2_l7gbp")
-__display_viewport_size_widget = NodePath("VBoxContainer/display_settings_size_widget/dpr_set_viewport")
-__display_override_size_widget = NodePath("VBoxContainer/display_settings_size_widget/dpr_set_window_override")
+__resolutions_options_display = NodePath("VBoxContainer/OptionButton")
+__orientation_check_box = NodePath("VBoxContainer/override_window_size/orientation_check_box")
+__use_override_check_box = NodePath("VBoxContainer/override_window_size/use_override_window_size_check_box")
+__res = ExtResource("2_mcygn")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=216368347]
 layout_mode = 1
@@ -33,20 +33,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="VBoxContainer" unique_id=638270957]
-self_modulate = Color(0.4392157, 1, 0.5058824, 1)
+[node name="space_05" type="Control" parent="VBoxContainer" unique_id=1049606532]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
-text = "Quick resolution"
-vertical_alignment = 1
 
-[node name="viewport_settings_display_label" type="Label" parent="VBoxContainer" unique_id=1518702471]
+[node name="preset_name_label" type="Label" parent="VBoxContainer" unique_id=11774523]
 self_modulate = Color(0.4392157, 1, 0.5058824, 1)
 layout_mode = 2
-vertical_alignment = 1
-
-[node name="window_override_settings_display_label" type="Label" parent="VBoxContainer" unique_id=1722639455]
-self_modulate = Color(0.4392157, 1, 0.5058824, 1)
-layout_mode = 2
+size_flags_horizontal = 0
+text = "Google Pixel 6 Pro"
 vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=860295648]
@@ -70,6 +65,7 @@ layout_mode = 2
 [node name="arr_btns_group" type="GridContainer" parent="VBoxContainer" unique_id=976073999]
 layout_mode = 2
 size_flags_vertical = 0
+theme = ExtResource("4_mcygn")
 columns = 3
 script = ExtResource("4_nw6xa")
 __btn_tscn = ExtResource("3_gqcfx")
@@ -78,94 +74,56 @@ __btn_tscn = ExtResource("3_gqcfx")
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
-[node name="select_option_list" type="HBoxContainer" parent="VBoxContainer" unique_id=1164145498]
+[node name="select_option_list" type="VBoxContainer" parent="VBoxContainer" unique_id=2062780863]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer/select_option_list" unique_id=658440218]
+[node name="device_preset_model_label" type="Label" parent="VBoxContainer/select_option_list" unique_id=25963749]
+self_modulate = Color(0.4392157, 1, 0.5058824, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "model: iPhone 13 Pro Max - 2021"
+vertical_alignment = 1
+
+[node name="viewport_settings_display_label" type="Label" parent="VBoxContainer" unique_id=1518702471]
+self_modulate = Color(0.4392157, 1, 0.5058824, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "size_viewport_[1284 x 2778]"
+vertical_alignment = 1
+
+[node name="window_override_settings_display_label" type="Label" parent="VBoxContainer" unique_id=1968918437]
+self_modulate = Color(0.4392157, 1, 0.5058824, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "size_override_[0 x 0]"
+vertical_alignment = 1
+
+[node name="space_04" type="Control" parent="VBoxContainer" unique_id=2070270869]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="override_window_size" type="VBoxContainer" parent="VBoxContainer" unique_id=290474315]
+layout_mode = 2
+
+[node name="orientation_check_box" type="CheckBox" parent="VBoxContainer/override_window_size" unique_id=658440218]
 self_modulate = Color(0.4392157, 1, 0.5058824, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
-text = "Landscape"
+text = "landscape"
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/select_option_list" unique_id=1724640856]
+[node name="use_override_window_size_check_box" type="CheckBox" parent="VBoxContainer/override_window_size" unique_id=1220647888]
+self_modulate = Color(0.4392157, 1, 0.5058824, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
+text = "use override window size"
 
 [node name="space_03" type="Control" parent="VBoxContainer" unique_id=653443627]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
-[node name="dpr_slider" type="HBoxContainer" parent="VBoxContainer" unique_id=1506268014 node_paths=PackedStringArray("__slider", "__range_label")]
-layout_mode = 2
-script = ExtResource("5_brn55")
-__slider = NodePath("HSlider")
-__range_label = NodePath("range_label")
-
-[node name="Label" type="Label" parent="VBoxContainer/dpr_slider" unique_id=1967313865]
-self_modulate = Color(0.4392157, 1, 0.5058824, 1)
-layout_mode = 2
-text = "physical resolution ÷ DPR"
-
-[node name="range_label" type="Label" parent="VBoxContainer/dpr_slider" unique_id=2056775240]
-self_modulate = Color(0.4392157, 1, 0.5058824, 1)
-layout_mode = 2
-text = "1.0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HSlider" type="HSlider" parent="VBoxContainer/dpr_slider" unique_id=483854279]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-min_value = 1.0
-max_value = 3.6
-step = 0.1
-value = 1.0
-
-[node name="display_settings_size_widget" type="VBoxContainer" parent="VBoxContainer" unique_id=902243774]
-layout_mode = 2
-
-[node name="dpr_set_viewport" type="HBoxContainer" parent="VBoxContainer/display_settings_size_widget" unique_id=1199716733 node_paths=PackedStringArray("__set_check_box", "__set_btn", "__drp_slider")]
-layout_mode = 2
-script = ExtResource("6_l7gbp")
-__settings_prop_prefix = "size_viewport_"
-__set_check_box = NodePath("set_viewport_check_box")
-__set_btn = NodePath("__set_viewport_btn")
-__drp_slider = NodePath("../../dpr_slider")
-
-[node name="set_viewport_check_box" type="CheckBox" parent="VBoxContainer/display_settings_size_widget/dpr_set_viewport" unique_id=1554659356]
-self_modulate = Color(0.4392157, 1, 0.5058824, 1)
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer" unique_id=1724640856]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.0
-text = "viewport"
-icon_alignment = 1
-
-[node name="__set_viewport_btn" parent="VBoxContainer/display_settings_size_widget/dpr_set_viewport" unique_id=1729150968 instance=ExtResource("3_gqcfx")]
-layout_mode = 2
-size_flags_horizontal = 1
-text = "Set"
-
-[node name="dpr_set_window_override" type="HBoxContainer" parent="VBoxContainer/display_settings_size_widget" unique_id=647795607 node_paths=PackedStringArray("__set_check_box", "__set_btn", "__drp_slider")]
-layout_mode = 2
-script = ExtResource("6_l7gbp")
-__settings_prop_prefix = "size_override_"
-__set_check_box = NodePath("set_override_check_box")
-__set_btn = NodePath("__window_override_btn")
-__drp_slider = NodePath("../../dpr_slider")
-
-[node name="set_override_check_box" type="CheckBox" parent="VBoxContainer/display_settings_size_widget/dpr_set_window_override" unique_id=1618642995]
-self_modulate = Color(0.4392157, 1, 0.5058824, 1)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_stretch_ratio = 0.0
-text = "override:"
-icon_alignment = 1
-
-[node name="__window_override_btn" parent="VBoxContainer/display_settings_size_widget/dpr_set_window_override" unique_id=1876072097 instance=ExtResource("3_gqcfx")]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-text = "Set"

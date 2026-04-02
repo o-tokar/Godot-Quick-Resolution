@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cy582nyy7hwpe"]
 
-[ext_resource type="Texture2D" uid="uid://ch8fljf5ngnyy" path="res://icon.svg" id="2_cguwc"]
+[ext_resource type="Texture2D" uid="uid://bektlngsu48j5" path="res://godot_test_icon.png" id="1_mncer"]
 
 [node name="TestScene" type="Node" unique_id=1167755794]
 
@@ -12,8 +12,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=542201677]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_mncer")
+stretch_mode = 4
+
 [node name="Node2D" type="Node2D" parent="." unique_id=1603469617]
+visible = false
 position = Vector2(0, 177)
 
 [node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=100296668]
-texture = ExtResource("2_cguwc")
+texture = ExtResource("1_mncer")
