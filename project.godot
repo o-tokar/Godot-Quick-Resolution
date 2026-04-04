@@ -14,14 +14,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Godot-4-plugin-project-resolution"
+config/name="godot-addons-sandbox"
 run/main_scene="res://TestScene.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
 [display]
 
-window/size/viewport_width=1440
-window/size/viewport_height=3120
+window/size/viewport_width=1080
+window/size/viewport_height=2340
 window/subwindows/embed_subwindows=false
 window/stretch/mode="viewport"
 

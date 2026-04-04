@@ -19,7 +19,7 @@ const __size_override_h: String = QuickResConst.Settings.SIZE_OVERRIDE_HEIGHT
 var __plugin: EditorPlugin
 
 var __active_res_preset: ActiveDeviceResolution
-
+var __option_list_map: Dictionary[int, String]
 
 func _exit_tree() -> void:
 	Extras.disconnect_all(__orientation_check_box.toggled)
@@ -47,20 +47,29 @@ func init(plugin: EditorPlugin):
 
 
 func __preset_selected(_preset_name: String):
-	__display_resolutions_list(__res.get_preset_by_name(_preset_name).resolutions)
+	__display_resolutions_list(__res.get_preset_by_name(_preset_name))
 
-func __display_resolutions_list(resolutions: Array[DeviceResolution]):
+
+func __display_resolutions_list(preset: ResolutionPresetsGroup):
+	var resolutions: Array[DeviceResolution] = preset.resolutions
+	__option_list_map.clear()
 	__resolutions_options_display.clear()
 
-	for res in resolutions:
+	__resolutions_options_display.add_item(preset.preset_name)
+
+	for i in range(resolutions.size()):
+		var res = resolutions[i]
 		var _wh = "[ {width}x{height} ]".format({"width": res.screen_resolution.x, "height": res.screen_resolution.y})
 		__resolutions_options_display.add_item(res.model + " - " + _wh)
-
+		__option_list_map[i + 1] = res.model
 	Extras.connect_once(__resolutions_options_display.item_selected, __select_resolution)
 
 
 func __select_resolution(idx: int):
-	var data = __res.get_active_preset_resolution_by_index(idx)
+	if idx == 0:
+		return # 0-item reserved for options-list <title>.
+
+	var data = __res.get_active_preset_resolution_by_device_model(__option_list_map[idx])
 
 	__active_res_preset.model = data.model
 	__active_res_preset.release_year = data.release_year

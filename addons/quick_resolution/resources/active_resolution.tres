@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_tienp")
-model = "Google Pixel 7 Pro"
-screen_resolution = Vector2i(1440, 3120)
-release_year = 2022
+model = "Samsung Galaxy S23+"
+screen_resolution = Vector2i(1080, 2340)
+release_year = 2023
 metadata/_custom_type_script = "uid://dbuk8iq46x573"

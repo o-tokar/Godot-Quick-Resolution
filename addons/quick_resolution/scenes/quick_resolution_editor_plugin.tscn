@@ -81,14 +81,14 @@ layout_mode = 2
 self_modulate = Color(0.4392157, 1, 0.5058824, 1)
 layout_mode = 2
 size_flags_horizontal = 0
-text = "model: Google Pixel 7 Pro - 2022"
+text = "model: Motorola Edge 70 Fusion+ - 2026"
 vertical_alignment = 1
 
 [node name="viewport_settings_display_label" type="Label" parent="VBoxContainer" unique_id=1518702471]
 self_modulate = Color(0.4392157, 1, 0.5058824, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "size_viewport_[1440 x 3120]"
+text = "size_viewport_[1272 x 2772]"
 vertical_alignment = 1
 
 [node name="window_override_settings_display_label" type="Label" parent="VBoxContainer" unique_id=1968918437]
