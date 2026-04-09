@@ -11,7 +11,6 @@ func refresh():
 	__devices.clear()
 	for res in resolutions:
 		__devices[res.model] = res
-		print("add "+res.model)
 
 
 func get_resolution_by_device_model(_model: String) -> DeviceResolution:
