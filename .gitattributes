@@ -1,7 +1,39 @@
-# Normalize line endings for all files that Git considers text files.
+# Core settings
 * text=auto eol=lf
 
-# Only include the addons folder when downloading from the Asset Library.
-/**        export-ignore
-/addons    !export-ignore
-/addons/** !export-ignore
+# Source code (ensure correct line endings for scripts)
+*.gd text eol=lf
+*.gd.uid text eol=lf
+*.tscn text eol=lf
+*.cfg text eol=lf
+
+# Documentation and configs
+*.md text eol=lf
+*.json text eol=lf
+*.cfg text eol=lf
+
+# Explicitly binary files (prevent corruption)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.svg binary
+*.ttf binary
+*.otf binary
+*.pck binary
+*.zip binary
+
+# Godot specific exports (if any)
+*.import binary
+*.import/* binary
+
+# Exclude unnecessary files from export (for the store package)
+# These files are only needed for development
+/.git* export-ignore
+/.github* export-ignore
+/docs* export-ignore
+/*.md export-ignore
+/*.txt export-ignore
+
+# Exclude the addon's own .gitattributes to avoid conflicts
+.gitattributes export-ignore

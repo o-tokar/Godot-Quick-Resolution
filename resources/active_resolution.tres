@@ -4,7 +4,9 @@
 
 [resource]
 script = ExtResource("1_tienp")
-model = "Samsung Galaxy S23+"
-screen_resolution = Vector2i(1080, 2340)
-release_year = 2023
+model = "iPad Pro 11\" (2020)"
+override_resolution_size = Vector2i(695, 995)
+screen_resolution = Vector2i(1668, 2388)
+dpr = 2.4
+release_year = 2020
 metadata/_custom_type_script = "uid://dbuk8iq46x573"
