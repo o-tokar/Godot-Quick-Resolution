@@ -1,6 +1,6 @@
 # Godot Quick Resolution
 
-![Godot 4.3+](https://img.shields.io/badge/Godot-4.3%2B-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green)
+![Godot 4.3+](https://img.shields.io/badge/Godot-4.3%2B-blue)
 
 **Quickly change and test different Project Resolution settings** directly from the Godot editor.
 
