@@ -13,9 +13,10 @@ func _disable_plugin() -> void:
 
 
 func _ready() -> void:
-	__quick_resolution_editor = preload("res://addons/quick_resolution/scenes/quick_resolution_editor_plugin.tscn").instantiate()
+	var current_dir = get_script().resource_path.get_base_dir()
+	__quick_resolution_editor = load(current_dir.path_join("/scenes/quick_resolution_editor_plugin.tscn")).instantiate()
 	add_control_to_dock(DOCK_SLOT_RIGHT_UL, __quick_resolution_editor)
-	__quick_resolution_editor.init(self )
+	__quick_resolution_editor.init(self, current_dir)
 
 func _exit_tree() -> void:
 	# Clean-up of the plugin goes here.

@@ -26,9 +26,10 @@ func _exit_tree() -> void:
 	Extras.disconnect_all(__use_override_check_box.toggled)
 	Extras.disconnect_all(__resolutions_options_display.item_selected)
 
+var __curr_dir: String
 
-func _enter_tree() -> void:
-	__active_res_preset = load(QuickResConst.Paths.ACTIVE_RESOLUTION)
+func load_test() -> void:
+	__active_res_preset = load(__curr_dir.path_join(QuickResConst.Paths.ACTIVE_RESOLUTION))
 	__res.refresh()
 	__preset_name_label.text = "Presets collection: {name}".format({"name":__res.title})
 
@@ -42,9 +43,10 @@ func _enter_tree() -> void:
 		__groups_btns.add(gr, __preset_selected)
 
 
-func init(plugin: EditorPlugin):
+func init(plugin: EditorPlugin, p_dir: String):
 	__plugin = plugin
-
+	__curr_dir = p_dir
+	load_test()
 
 func __preset_selected(_preset_name: String):
 	__display_resolutions_list(__res.get_preset_by_name(_preset_name))
@@ -96,7 +98,7 @@ func __refresh_resolution():
 	__set_resolution(__active_res_preset.override_resolution_size, __size_override_w, __size_override_h)
 
 	ProjectSettings.save()
-	Extras.serialize_resource(__active_res_preset, QuickResConst.Paths.ACTIVE_RESOLUTION)
+	Extras.serialize_resource(__active_res_preset, __curr_dir.path_join(QuickResConst.Paths.ACTIVE_RESOLUTION))
 
 	__plugin.refresh_2d_editor_view()
 	__display_saved_settings()
@@ -104,7 +106,7 @@ func __refresh_resolution():
 
 func __display_saved_settings():
 
-	__active_res_preset = load(QuickResConst.Paths.ACTIVE_RESOLUTION)
+	__active_res_preset = load(__curr_dir.path_join(QuickResConst.Paths.ACTIVE_RESOLUTION))
 
 	var viewport_w = ProjectSettings.get_setting(__size_viewport_w)
 	var viewport_h = ProjectSettings.get_setting(__size_viewport_h)

@@ -4,9 +4,9 @@
 
 [resource]
 script = ExtResource("1_tienp")
-model = "iPad Pro 11\" (2020)"
-override_resolution_size = Vector2i(695, 995)
-screen_resolution = Vector2i(1668, 2388)
-dpr = 2.4
-release_year = 2020
+model = "iPhone 14 Plus"
+override_resolution_size = Vector2i(428, 926)
+screen_resolution = Vector2i(1284, 2778)
+dpr = 3.0
+release_year = 2022
 metadata/_custom_type_script = "uid://dbuk8iq46x573"
