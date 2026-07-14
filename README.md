@@ -6,7 +6,7 @@
 
 A lightweight editor plugin that lets you instantly switch between common resolutions (including many real device resolutions) without manually editing `project.godot` every time. Perfect for testing how your game looks on phones, tablets, desktops, and various aspect ratios.
 
-![Screenshot](docs/godot-assets-upload.png.png)
+![Screenshot](docs/godot-assets-upload.png)
 
 
 ## Features
